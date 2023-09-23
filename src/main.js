@@ -1,3 +1,4 @@
+import process from 'node:process';
 import Hapi from '@hapi/hapi';
 
 import routes from './routes.js';
@@ -18,6 +19,10 @@ const server = Hapi.server({
 });
 server.route(routes);
 
-server.start().then(() => {
+try {
+  await server.start();
   console.log(`Server berjalan pada ${server.info.uri}`);
-});
+} catch (err) {
+  console.error(err.message);
+  process.exit(1);
+}
